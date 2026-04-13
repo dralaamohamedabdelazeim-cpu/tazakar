@@ -64,7 +64,7 @@ class MainActivity : ComponentActivity() {
 
     private fun startScheduler() {
         ZekrPrefs.setEnabled(this, true)
-        val minutes = ZekrPrefs.getIntervalMinutes(this).toLong()
+        val minutes = ZekrPrefs.getIntervalnMinutes(this).toLong()
         ZekrScheduler.schedule(this, minutes)
     }
 }
