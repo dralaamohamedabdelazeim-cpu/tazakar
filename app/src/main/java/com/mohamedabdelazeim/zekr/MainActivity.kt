@@ -15,24 +15,34 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mohamedabdelazeim.zekr.data.ZekrPrefs
 import com.mohamedabdelazeim.zekr.ui.screens.AdhkarScreen
 import com.mohamedabdelazeim.zekr.ui.screens.HomeScreen
-import com.mohamedabdelazeim.zekr.ui.theme.ZekrTheme
+import com.mohamedabdelazeim.zekr.theme.ZekrTheme
+import com.mohamedabdelazeim.zekr.worker.ZekrScheduler
 
 class MainActivity : ComponentActivity() {
 
     private val notifLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) {}
+    ) { granted ->
+        if (granted) startScheduler()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // طلب إذن الإشعارات وتشغيل الجدولة
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
                 notifLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            } else {
+                startScheduler()
             }
+        } else {
+            startScheduler()
         }
 
         setContent {
@@ -50,5 +60,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun startScheduler() {
+        ZekrPrefs.setEnabled(this, true)
+        val minutes = ZekrPrefs.getIntervalMinutes(this).toLong()
+        ZekrScheduler.schedule(this, minutes)
     }
 }
