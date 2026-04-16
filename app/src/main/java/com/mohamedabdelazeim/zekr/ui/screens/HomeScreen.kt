@@ -39,7 +39,7 @@ fun HomeScreen(onNavigateToAdhkar: () -> Unit) {
     var selectedRepeatIndex by remember { mutableStateOf(ZekrPrefs.getRepeatIndex(ctx)) }
     var dhikrMenuExpanded by remember { mutableStateOf(false) }
 
-    val intervals = listOf(15, 30, 60, 120)
+    val intervals = listOf(1,5,10,20,15, 30, 60, 120)
     val gold = Color(0xFFFFD700)
     val darkGreen = Color(0xFF1B5E20)
 
