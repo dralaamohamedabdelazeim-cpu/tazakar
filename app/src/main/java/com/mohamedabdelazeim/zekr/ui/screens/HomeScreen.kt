@@ -73,7 +73,7 @@ fun HomeScreen(onNavigateToAdhkar: () -> Unit) {
             
             // Title
             Text(
-                "محمد عبد العظيم",
+                "الحاج محمود عبد العليم كيلانى",
                 fontSize = 30.sp,
                 fontWeight = FontWeight.Bold,
                 color = gold,
